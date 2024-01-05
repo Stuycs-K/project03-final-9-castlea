@@ -2,28 +2,21 @@
 
 ## Group Members:
 
-names here.
-       
+Anabella Castle
+
 # Intentions:
 
-A statement of the problem you are solving and/or a high level description of the project.
-    
+Make a rock paper scissors tournament that connects to multiple clients, matches them, and manages the tournament.
+
 # Intended usage:
 
-A description as to how the project will be used (describe the user interface).
-  
+The clients connect to the server, and type into the terminal their move (rock, paper, or scissors)
+Result is revealed when both clients make their choice, winner is moved on to next pairing
+
 # Technical Details:
 
-A description of your technical design. This should include:
-   
-How you will be using the topics covered in class in the project.
-     
-How you are breaking down the project and who is responsible for which parts.
-  
-What data structures you will be using and how.
-     
-What algorithms and /or data structures you will be using, and how.
-    
-# Intended pacing:
+I will be working with sockets to connect the server to the various clients.
+I will work with forking to run the individual matches
+And I will use files to store information from the game
 
-A timeline with expected completion dates of parts of the project.
+# Intended pacing:
