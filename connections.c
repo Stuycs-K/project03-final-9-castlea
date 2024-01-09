@@ -18,11 +18,13 @@ void err(int i, char*message){
 int server_setup() { //returns socket descriptor
   //setup structs for getaddrinfo
   struct addrinfo *hints, *results;
+  char *port = "4242";
   hints->ai_family = AF_INET;
   hints->ai_socktype = SOCK_STREAM; //TCP socke
-  getaddrinfo("127.0.0.1", "4040", hints, &results);
+  hints->ai_flags = AI_PASSIVE; //only needed on server
+  getaddrinfo("127.0.0.1", port, hints, &results);
   //create the socket
-  int listener=socket(results->ai_family, results->ai_socktype, results->ai_protocol);//store the socket descriptor here
+  int listener = socket(results->ai_family, results->ai_socktype, results->ai_protocol);//store the socket descriptor here
   err(listener,"make socket in server_setup");
   //this code should get around the address in use error
   int yes = 1;
@@ -36,8 +38,21 @@ int server_setup() { //returns socket descriptor
   listen(listener, 10);
 
   //free the structs used by getaddrinfo
-  free(hints);
+  freeaddrinfo(hints);
   freeaddrinfo(results);
 
   return listener;
+}
+
+int client_connection(){
+  struct addrinfo *hints, *results;
+  hints->ai_family = AF_INET;
+  hints->ai_socktype = SOCK_STREAM;
+  getaddrinfo(("127.0.0.1","4242",hints,&results);
+  int connector = socket(results->ai_family, results->ai_socktype, results->ai_protocol);
+  err(connector,"connector socket setup");
+  connect(connector, results->ai_addr, results->ai_addrlen);
+  freeaddrinfo(hints);
+  freeaddrinfo(results);
+  return connector;
 }
