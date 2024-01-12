@@ -57,10 +57,10 @@ int main(){
 
     // if socket
     if (FD_ISSET(listener, &read_fds)) {
+      int client_socket = accept(listener,(struct sockaddr *)&client_address, &sock_size);
+      err(client_socket,"acceptor failure");
       //accept the connection
       if(!tournament){
-        int client_socket = accept(listener,(struct sockaddr *)&client_address, &sock_size);
-        err(client_socket,"acceptor failure");
         lineup[i]=client_socket; //store client
         char wutName[200];
         sprintf(wutName,"Hello, you are Player %d. Are we waiting on more players? (use lowercase)",i+1);
@@ -80,16 +80,23 @@ int main(){
         }
         if(strcmp(buff,"no")){
           tournament = 1;
+          char *ready = "Ready to start";
+          int ready = send(client_socket, ready, sizeof(ready),0);
+          err(ready,"ready message");
         }
-
+        else{
+          char *continue = "alright, waiting for more players";
+          int cont = send(client_socket,continue,sizeof(continue),0);
+        }
         //printf("\nPlayer Name: '%s'\n",buff);
         i++;
       }
-      if(tournament){
+      //if(tournament){
 
-      }
-      //close(client_socket);
+      //}
+      close(client_socket);
     }
+
   }
 
   free(hints);
